@@ -5,21 +5,22 @@
 		
 		<div id="booth" ng-include="'assets/BoothMap.svg'" style='z-index: 1'></div>	
 		<div id="sensors" ng-bind-html="result" style='z-index: 2'></div>
+		
 	</div>
 
 	<div id='footer'>
 
-
-    <span><button ngClick="test()" type="button" class="btn btn-default">Leak</button></span>
-    <span><button ngClick="test()" type="button" class="btn btn-default">Valve</button></span>
-    <span><button ngClick="test()" type="button" class="btn btn-default">Over</button></span>
-    <span><button ngClick="test()" type="button" class="btn btn-default">Under</button></span>
-    <span><button ngClick="test()" type="button" class="btn btn-default">Life</button></span>
-
+    <span><button ng-click="leakFilter()">Leak</button></span>
+    <span><button ng-click="valveFilter()">Valve</button></span>
+    <span><button ng-click="overFilter()">Over</button></span>
+    <span><button ng-click="underFilter()">Under</button></span>
+    <span><button ng-click="lifeFilter()">Life</button></span>
+	<span>		
+    CountLimit:
+    <input type="number" name="input" ng-model="lifeLimit"
+           min="0" max="9999" required>
+	</span>
+    K
 
 	</div>
-
-
-
-
 
