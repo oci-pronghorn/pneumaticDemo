@@ -33,6 +33,12 @@ public class Server {
 	
 	public static void main(String[] args) {
 						
+	   String path = HTTPServer.getOptArg("-site", "--s", args, null);	
+		
+		if (null==path) {
+			System.out.println("Path to site must be defined with -site or --s");
+			return;			
+		}
 		
 		String isTLS = HTTPServer.getOptArg("-tls", "--t", args, "False");	
 		String isLarge = HTTPServer.getOptArg("-large", "--l", args, "False");	
@@ -57,7 +63,7 @@ public class Server {
 	    final int fileOutgoing = large? 2048 : 1024;//makes big performance difference.  TODO: why does making this large make a difference?
 	    final int fileChunkSize = large? 1<<14 : 1<<10;
 	    
-		HTTPServer.startupHTTPServer(large, Server.moduleConfig(fileOutgoing, fileChunkSize), bindHost, port, Boolean.parseBoolean(isTLS) );
+		HTTPServer.startupHTTPServer(large, Server.moduleConfig(path, fileOutgoing, fileChunkSize), bindHost, port, Boolean.parseBoolean(isTLS) );
         		
 		System.out.println("Press \"ENTER\" to exit...");
 		int value = -1;
@@ -79,14 +85,17 @@ public class Server {
 	///TODO: shutdown not happening as desired.
     ///TOOD: need the memory consumed added on to to the graph.
 	
-    static ModuleConfig moduleConfig(final int fileOutgoing, final int fileChunkSize) {
+    static ModuleConfig moduleConfig(String path, final int fileOutgoing, final int fileChunkSize) {
 
     	
-    	URL dir = ClassLoader.getSystemResource((String) "site/index.html");
+		final File pathRoot = new File(path.replace("target/phogLite.jar!",""));
+		
     	
-    	System.err.println(dir);  // jar:file:/home/nate/git/pneumaticDemo/target/server.jar!/site/index.html
-
-    	File pathRoot  = new File(dir.getFile());    			
+//    	URL dir = ClassLoader.getSystemResource((String) "site/index.html");
+//    	
+//    	System.err.println(dir);  // jar:file:/home/nate/git/pneumaticDemo/target/server.jar!/site/index.html
+//
+//    	File pathRoot  = new File(dir.getFile());    			
 
 		int fileServerIdx = 0;
 		final int finalModuleCount = 1;
